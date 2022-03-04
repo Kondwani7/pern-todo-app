@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react'
-import {Box, Container, Heading, Table,Thead,Tbody, Tr, Th, TableCaption} from '@chakra-ui/react';
+import {Box, Container, Heading, Table,Thead,Tbody, Tr, Th, Button} from '@chakra-ui/react';
 
 const ListTasks = () => {
     const [tasks, setTasks] = useState([]);
 
-    const getTodos = async() => {
+    const getTasks = async() => {
         try{
             const response = await fetch("http://localhost:8000/tasks")
             const jsonData = await response.json();
@@ -15,11 +15,23 @@ const ListTasks = () => {
         }
     }
 
+    const deleteTask = async id => {
+        try{
+            const deleteTodo = await fetch  (`http://localhost:8000/tasks/${id}`, {
+                method:"DELETE"
+            });
+            
+            setTasks(tasks.filter(task => task.task_id !== id));
+        }catch(err){
+            console.error(err.message)
+        }
+    }
+
     useEffect(()=> {
-        getTodos();
+        getTasks();
     }, [])
 
-    console.log(getTodos);
+    console.log(getTasks);
 
   return (
     <Box  d="flex" alignItems="center" mt="16">
@@ -30,6 +42,7 @@ const ListTasks = () => {
                     <Tr>
                         <Th>Task Id</Th>
                         <Th>Description</Th>
+                        <Th>Delete Task</Th>
                     </Tr>
                 </Thead>
                 <Tbody>
@@ -37,7 +50,14 @@ const ListTasks = () => {
                         <Tr key={task.task_id}>
                             <Th>{task.task_id}</Th>
                             <Th>{task.description}</Th>
-
+                            <Th>
+                                <Button 
+                                    onClick={()=> deleteTask(task.task_id)}
+                                    colorScheme="red"
+                                >
+                                 Delete   
+                                </Button>
+                            </Th>
                         </Tr>
                     ) )}
                 </Tbody>
