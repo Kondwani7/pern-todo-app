@@ -34,7 +34,7 @@ const ListTasks = () => {
         getTasks();
     }, [])
 
-    const dealValue = 3500.00
+    const dealValue = 15000.00
 
     console.log(getTasks);
 
@@ -71,7 +71,8 @@ const ListTasks = () => {
                                 </Button>
                             </Td>
                             <Td isNumeric>{dealValue}</Td>
-                            <Td></Td>
+                            <Td isNumeric>
+                                {dealValue < 9999.99 ? 0 : dealValue * .075}</Td>
                         </Tr>
                     ) )}
                 </Tbody>
