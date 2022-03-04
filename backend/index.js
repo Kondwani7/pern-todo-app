@@ -23,7 +23,7 @@ app.get('/tasks', async (req, res) => {
         const allTasks = await pool.query("SELECT * FROM tasks");
         res.json(allTasks.rows);
     }catch(err){
-        console.log(err.message)
+        console.error(err.message)
     }
 })
 //get a task
@@ -34,7 +34,7 @@ app.get('/tasks/:id', async (req, res) => {
         res.json(task.rows[0])
     }
     catch(err){
-        console.log(err.message)
+        console.error(err.message)
     }
 })
 //create a task
@@ -47,11 +47,11 @@ app.post('/tasks', async(req,res) => {
         )
         res.json(newTask.rows[0]);
     }catch(err){
-        console.log(err.message)
+        console.error(err.message)
     }
 })
 
-//update task
+//update task description
 app.patch('/tasks/:id', async(req, res) => {
     try{
         const {id} = req.params;
@@ -62,7 +62,7 @@ app.patch('/tasks/:id', async(req, res) => {
         );
         res.json("Task was updated");
     }catch(err){
-        console.log(err.message);
+        console.error(err.message);
     }
 })
 //delete task
@@ -75,6 +75,6 @@ app.delete('/tasks/:id', async(req, res) => {
         )
         res.json("Task was deleted");
     }catch(err){
-        console.log(err.message);
+        console.error(err.message);
     }
 })
