@@ -1,8 +1,11 @@
 import React, {useState, useEffect} from 'react'
-import {Box, Container, Heading, Table,Thead,Tbody, Tr, Th, Button} from '@chakra-ui/react';
+import {Box, Container, Heading, Table,Thead,Tbody, Tr, Th, Td, Button} from '@chakra-ui/react';
+import EditTask from './EditTask';
 
 const ListTasks = () => {
     const [tasks, setTasks] = useState([]);
+    const [display, changeDisplay] = useState('hide')
+
 
     const getTasks = async() => {
         try{
@@ -17,7 +20,7 @@ const ListTasks = () => {
 
     const deleteTask = async id => {
         try{
-            const deleteTodo = await fetch  (`http://localhost:8000/tasks/${id}`, {
+            const delTask = await fetch  (`http://localhost:8000/tasks/${id}`, {
                 method:"DELETE"
             });
             
@@ -31,33 +34,44 @@ const ListTasks = () => {
         getTasks();
     }, [])
 
+    const dealValue = 3500.00
+
     console.log(getTasks);
 
   return (
+      
     <Box  d="flex" alignItems="center" mt="16">
         <Container maxW="container.xl">
             <Heading as="h2" size="xl" mb="3" ml={80}>List of Tasks</Heading>
-            <Table colorScheme="gray">
+            <Table colorScheme="gray" size="sm">
                 <Thead>
                     <Tr>
                         <Th>Task Id</Th>
                         <Th>Description</Th>
+                        <Th color="#181fde">Edit Description</Th>
                         <Th>Delete Task</Th>
+                        <Th>Numeric value</Th>
+                        <Th>Reward</Th>
                     </Tr>
                 </Thead>
                 <Tbody>
                     {tasks.map(task =>(
                         <Tr key={task.task_id}>
-                            <Th>{task.task_id}</Th>
-                            <Th>{task.description}</Th>
-                            <Th>
+                            <Td>{task.task_id}</Td>
+                            <Td>{task.description}</Td>
+                            <Td >
+                                <EditTask task={task}/>
+                            </Td>
+                            <Td>
                                 <Button 
                                     onClick={()=> deleteTask(task.task_id)}
                                     colorScheme="red"
                                 >
                                  Delete   
                                 </Button>
-                            </Th>
+                            </Td>
+                            <Td isNumeric>{dealValue}</Td>
+                            <Td></Td>
                         </Tr>
                     ) )}
                 </Tbody>
