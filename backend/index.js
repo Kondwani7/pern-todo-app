@@ -60,20 +60,28 @@ app.post('/brand_evangelists', async(req,res) => {
     }
 })
 
-//update task description
+//update deal_value
 app.patch('/brand_evangelists/:id', async(req, res) => {
     try{
         const {id} = req.params;
-        const {deal_value, deal_completed}=req.body
+        const {deal_completed, deal_value, reward}=req.body
         const updateTask = await pool.query(
-        "UPDATE test_brand_evangelists SET deal_value = $1, deal_completed=$2 WHERE brand_evangelist_id = $3",
-            [deal_value, deal_completed, id]
+        "UPDATE test_brand_evangelists SET deal_completed=$1, deal_value=$2, \
+         reward = CASE WHEN (deal_value <9999.99) THEN 0 ELSE(deal_value * 0.075) END WHERE brand_evangelist_id = $3",
+            [deal_completed, deal_value, id]
         );
-        res.json(`Brand evangelist ${id} was updated`);
+        res.json(`
+                  Brand evangelist ${id}'s updated. 
+                  deal_completed:${deal_completed}
+                  deal_value: ${deal_value}`
+                );
     }catch(err){
         console.error(err.message);
     }
 })
+
+
+
 
 //delete task
 app.delete('/brand_evangelists/:id', async(req, res) => {
