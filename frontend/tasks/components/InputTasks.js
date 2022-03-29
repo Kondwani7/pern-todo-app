@@ -2,18 +2,18 @@ import React, { useState} from 'react'
 import {Box, Container, Link, HStack, Stack, Select, Heading, Input,Button, VStack, Checkbox, CheckboxGroup} from '@chakra-ui/react';
 const InputTasks = () => {
     const [fullname, setFullname] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const [jobPosition, setJobPosition] = useState("");
+    const [phone_number, setPhoneNumber] = useState("");
+    const [job_position, setJobPosition] = useState("");
     const [organisation, setOrganisation] = useState("");
-    const [bankName, setBankName] = useState("");
-    const [bankBranch, setBankBranch] = useState("");
-    const [bankAccountNumber, setBankAccountNumber] = useState("");
-    const [identityType, setIdentityType] = useState("");
+    const [bank_name, setBankName] = useState("");
+    const [bank_branch, setBankBranch] = useState("");
+    const [bank_account_number, setBankAccountNumber] = useState("");
+    const [identity_type, setIdentityType] = useState("");
 
     const onSubmitForm = async e => {
         e.preventDefault();
         try{
-            const body = {fullname, phoneNumber, jobPosition, bankName, bankAccountNumber, organisation, identityType}
+            const body = {fullname, phone_number, job_position, bank_name, bank_account_number, organisation, bank_branch, identity_type}
             const response = await fetch("http://localhost:8000/brand_evangelists", {
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
@@ -39,12 +39,12 @@ const InputTasks = () => {
                             onChange={e => setFullname(e.target.value)}/>
                         <Input 
                             type="text" 
-                            value={phoneNumber} 
+                            value={phone_number} 
                             placeholder='Phone Number'
                             onChange={e => setPhoneNumber(e.target.value)}/> 
                         <Input 
                             type="text" 
-                            value={identityType} 
+                            value={identity_type} 
                             placeholder='Identity type NRC or Passport'
                             onChange={e => setIdentityType(e.target.value)}/> 
                         <Input 
@@ -54,26 +54,26 @@ const InputTasks = () => {
                             onChange={e => setOrganisation(e.target.value)}/>
                         <Input 
                             type="text" 
-                            value={jobPosition} 
+                            value={job_position} 
                             placeholder='Job Role/Position'
                             onChange={e => setJobPosition(e.target.value)}/>   
                         <Input 
                             type="text" 
-                            value={bankName} 
+                            value={bank_name} 
                             placeholder='Name of your Bank'
                             onChange={e => setBankName(e.target.value)}/> 
                         <Input 
                             type="text" 
-                            value={bankBranch} 
+                            value={bank_branch} 
                             placeholder='Bank Branch'
                             onChange={e => setBankBranch(e.target.value)}/> 
                         <Input 
                             type="text" 
-                            value={bankAccountNumber} 
+                            value={bank_account_number} 
                             placeholder='Bank Account Number'
                             onChange={e => setBankAccountNumber(e.target.value)}/> 
                         <Checkbox>
-                            do you consent to Our <Link color='teal.500' href="">Terms and conditions</Link>
+                            do you consent to Our <Link color='teal.500' href="">Terms and conditions?</Link>
                         </Checkbox>
                         {/* use it when creating a referral
                         <CheckboxGroup>

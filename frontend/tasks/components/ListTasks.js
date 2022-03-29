@@ -16,7 +16,7 @@ const ListTasks = () => {
             console.error(err.message)
         }
     }
-
+    /*
     const deleteTask = async id => {
         try{
             const delBrandEvangelists = await fetch(`http://http://localhost:8000/brand_evangelists/${id}`, {
@@ -28,7 +28,7 @@ const ListTasks = () => {
             console.error(err.message)
         }
     }
-
+    */
     useEffect(()=> {
         getbrandEvangelists();
     }, [])
@@ -45,7 +45,6 @@ const ListTasks = () => {
                     <Tr>
                         <Th>Brand Evangelist Id</Th>
                         <Th>Full name</Th>
-                    
                         <Th>Deal Completed?</Th>
                         <Th>Deal value (ZMK)</Th>
                         <Th color="#181fde">Edit Deal Value</Th>
@@ -62,11 +61,10 @@ const ListTasks = () => {
                             <Td>{brand_evangelist.deal_completed}</Td>
                             <Td>{brand_evangelist.deal_value}</Td>
                             <Td >
-                                <EditTask brand_evangelists={brand_evangelists}/>
+                                <Button colorScheme="green">Update</Button>
                             </Td>                
                             <Td>
                                 <Button 
-                                    onClick={()=> deleteTask(brand_evangelist.brand_evangelist_id)}
                                     colorScheme="red"
                                 >
                                  Delete   
