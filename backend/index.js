@@ -64,11 +64,12 @@ app.post('/brand_evangelists', async(req,res) => {
 app.patch('/brand_evangelists/:id', async(req, res) => {
     try{
         const {id} = req.params;
+        const initReward = 0
         const {deal_completed, deal_value, reward}=req.body
         const updateTask = await pool.query(
         "UPDATE test_brand_evangelists SET deal_completed=$1, deal_value=$2, \
-         reward = CASE WHEN (deal_value <9999.99) THEN 0 ELSE(deal_value * 0.075) END WHERE brand_evangelist_id = $3",
-            [deal_completed, deal_value, id]
+         reward = CASE WHEN (deal_value <9999.99) THEN $3 ELSE(deal_value * 0.075) END WHERE brand_evangelist_id = $4",
+            [deal_completed, deal_value, initReward, id]
         );
         res.json(`
                   Brand evangelist ${id}'s updated. 
