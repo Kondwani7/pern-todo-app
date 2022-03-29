@@ -1,15 +1,15 @@
 import React, {Fragment,useState} from 'react'
 import {Button, Input, InputRightAddon, InputGroup, HStack} from '@chakra-ui/react';
 
-const EditTask = ({task}) => {
-    const [description, setDescription] = useState(task.description)
-    //edit description
-    const updateDescription = async e => {
+const EditTask = ({brand_evangelists}) => {
+    const [dealValue, setDealValue] = useState(brand_evangelists.deal_value);
+    //edit dealValue
+    const updateDealValue = async e => {
         e.preventDefault();
         try{
-            const body = {description};
-            const response  = await fetch(`http://localhost:8000/tasks/${task.task_id}`,{
-                method:"PATCH",
+            const body = {dealValue};
+            const response  = await fetch(`http://localhost:8000/brand_evangelists/${brand_evangelists.brand_evangelist_id}`,{
+                method:"PUT",
                 headers:{"Content-type":"application/json"},
                 body: JSON.stringify(body)
             });
@@ -23,16 +23,16 @@ const EditTask = ({task}) => {
      <Fragment>
       <div
         className="modal"
-        id={`id${task.task_id}`}
-        onClick={() => setDescription(task.description)}
+        id={`id${brand_evangelists.brand_evangelist_id}`}
+        onClick={() => setDealValue(brand_evangelists.deal_value)}
       >
               <HStack>
                     <Input
                         type="text"
                         className="form-control"
-                        value={description}
                         htmlSize={5}
-                        onChange={e => setDescription(e.target.value)}
+                        value={dealValue}
+                        onChange={(e)=>setDealValue(e.target.value) }
                     />
                 <Button
                     mt="2"
@@ -40,7 +40,7 @@ const EditTask = ({task}) => {
                     className="btn btn-warning"
                     data-dismiss="modal"
                     colorScheme="blue"
-                    onClick={e => updateDescription(e)}
+                    onClick={e => updateDealValue(e)}
                 >
                 Update
               </Button>
@@ -51,7 +51,7 @@ const EditTask = ({task}) => {
                 type="button"
                 className="btn btn-danger"
                 data-dismiss="modal"
-                onClick={() => setDescription(task.description)}
+                onClick={() => setDealValue(brand_evangelists.deal_value)}
               >
                 Close
               </Button>

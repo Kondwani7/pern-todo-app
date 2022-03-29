@@ -3,16 +3,15 @@ import {Box, Container, Heading, Table,Thead,Tbody, Tr, Th, Td, Button} from '@c
 import EditTask from './EditTask';
 
 const ListTasks = () => {
-    const [tasks, setTasks] = useState([]);
-    const [display, changeDisplay] = useState('hide')
+    const [brand_evangelists, setBrandEvangelists] = useState([]);
 
 
-    const getTasks = async() => {
+    const getbrandEvangelists = async() => {
         try{
-            const response = await fetch("http://localhost:8000/tasks")
+            const response = await fetch("http://localhost:8000/brand_evangelists")
             const jsonData = await response.json();
 
-            setTasks(jsonData);
+            setBrandEvangelists(jsonData);
         }catch(err){
             console.error(err.message)
         }
@@ -20,59 +19,63 @@ const ListTasks = () => {
 
     const deleteTask = async id => {
         try{
-            const delTask = await fetch  (`http://localhost:8000/tasks/${id}`, {
+            const delBrandEvangelists = await fetch(`http://http://localhost:8000/brand_evangelists/${id}`, {
                 method:"DELETE"
             });
             
-            setTasks(tasks.filter(task => task.task_id !== id));
+            setBrandEvangelists(brand_evangelists.filter(brand_evangelist => brand_evangelist.brand_evangelist_id !== id));
         }catch(err){
             console.error(err.message)
         }
     }
 
     useEffect(()=> {
-        getTasks();
+        getbrandEvangelists();
     }, [])
 
-    const dealValue = 15000.00
-
-    console.log(getTasks);
+    console.log(getbrandEvangelists);
 
   return (
       
     <Box  d="flex" alignItems="center" mt="16">
         <Container maxW="container.xl">
-            <Heading as="h2" size="xl" mb="3" ml={80}>List of Tasks</Heading>
+            <Heading as="h2" size="xl" mb="3" ml={80}>List of Brand Evangelists</Heading>
             <Table colorScheme="gray" size="sm">
                 <Thead>
                     <Tr>
-                        <Th>Task Id</Th>
-                        <Th>Description</Th>
-                        <Th color="#181fde">Edit Description</Th>
-                        <Th>Delete Task</Th>
-                        <Th>Numeric value</Th>
-                        <Th>Reward</Th>
+                        <Th>Brand Evangelist Id</Th>
+                        <Th>Full name</Th>
+                    
+                        <Th>Deal Completed?</Th>
+                        <Th>Deal value (ZMK)</Th>
+                        <Th color="#181fde">Edit Deal Value</Th>
+                        <Th>Delete Brand evangelist</Th>
+                        <Th>Test Reward (ZMK)</Th>
+                        <Th>Reward (ZMK)</Th>
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {tasks.map(task =>(
-                        <Tr key={task.task_id}>
-                            <Td>{task.task_id}</Td>
-                            <Td>{task.description}</Td>
+                    {brand_evangelists.map(brand_evangelist =>(
+                        <Tr key={brand_evangelist.brand_evangelist_id}>
+                            <Td>{brand_evangelist.brand_evangelist_id}</Td>
+                            <Td>{brand_evangelist.fullname}</Td>
+                            <Td>{brand_evangelist.deal_completed}</Td>
+                            <Td>{brand_evangelist.deal_value}</Td>
                             <Td >
-                                <EditTask task={task}/>
-                            </Td>
+                                <EditTask brand_evangelists={brand_evangelists}/>
+                            </Td>                
                             <Td>
                                 <Button 
-                                    onClick={()=> deleteTask(task.task_id)}
+                                    onClick={()=> deleteTask(brand_evangelist.brand_evangelist_id)}
                                     colorScheme="red"
                                 >
                                  Delete   
                                 </Button>
                             </Td>
-                            <Td isNumeric>{dealValue}</Td>
-                            <Td isNumeric>
-                                {dealValue < 9999.99 ? 0 : dealValue * .075}</Td>
+                            <Td deal_completed>
+                                {brand_evangelist.deal_value < 10000 ? 0 : brand_evangelist.deal_value * .075}
+                            </Td>
+                            <Td>{brand_evangelist.reward}</Td>
                         </Tr>
                     ) )}
                 </Tbody>
